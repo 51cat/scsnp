@@ -1,9 +1,9 @@
 import pysam
-import sys
-import utils
+import pymodules.utils as utils
+from minana import MinAna
 import argparse
 
-class TargetMetrics:
+class TargetMetrics(MinAna):
     """
     ## Features
     - Filter bam file
@@ -17,18 +17,15 @@ class TargetMetrics:
     """
 
     def __init__(self, args):
+        super().__init__(args.sample, args.outdir)
 
-        self.sample = args.sample
-        self.outdir = args.outdir
         self.input_bam = args.input_bam
         self.add_RG = args.add_RG
 
         self.match_barcode_list, self.n_cell = utils.get_barcode_from_matrix_dir(args.match_dir)
         self.match_barcode = set(self.match_barcode_list)
-        self.gene_list, self.n_gene = utils.read_one_col(args.gene_list)
-
-        if not self.gene_list:
-            sys.exit("You must provide either --gene_list!")
+        self.gene_list = utils.read_one_col(args.gene_list)
+        self.n_gene = len(self.gene_list)
 
         # out file
         self.out_bam_file = f'{self.outdir}/{self.sample}_filtered.bam'
@@ -81,6 +78,8 @@ class TargetMetrics:
             do = "index"
         )
 
+        self.add_rubbish(self.out_bam_file)
+        self.clean()
 
 
 def main():

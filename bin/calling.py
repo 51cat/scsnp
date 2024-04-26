@@ -1,8 +1,9 @@
 
-import utils
+import bin.pymodules.utils as utils
 import argparse
+from minana import MinAna
 
-class VariantCaller:
+class VariantCaller(MinAna):
     """
     ## Features
     - Perform variant calling at single cell level.
@@ -14,9 +15,8 @@ class VariantCaller:
 
     def __init__(self, args):
         # set
-        
-        self.outdir = args.outdir
-        self.sample = args.sample
+        super().__init__(args.sample, args.outdir)
+
         self.thread = args.thread
         self.input_bam = args.input_bam
         self.bed = args.bed_file
@@ -76,7 +76,7 @@ def main():
     parser.add_argument('--sample', help='sample name')
     parser.add_argument('--outdir', help='outdir')
     parser.add_argument('--fasta', help='Genome sequence')
-    parser.add_argument('--bed', help='Genome sequence')
+    parser.add_argument('--bed_file', help='Genome sequence')
     parser.add_argument('--thread', help='Genome sequence')
     args = parser.parse_args()
     runner = VariantCaller(args)
