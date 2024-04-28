@@ -1,6 +1,6 @@
 import pysam
 import pymodules.utils as utils
-from minana import MinAna
+from pymodules.minana import MinAna
 import argparse
 
 class TargetMetrics(MinAna):

@@ -15,9 +15,9 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { SCRNA  } from './workflows/scsnp'
-// include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_scrna_pipeline'
-// include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_scrna_pipeline'
+include { SCSNP  } from './workflows/scsnp'
+ include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_scrna_pipeline'
+ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_scrna_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,7 +28,7 @@ include { SCRNA  } from './workflows/scsnp'
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
-workflow SINGLERONRD_SCRNA {
+workflow SINGLERONRD_SCSNP {
 
     take:
     samplesheet // channel: samplesheet read in from --input
@@ -38,12 +38,12 @@ workflow SINGLERONRD_SCRNA {
     //
     // WORKFLOW: Run pipeline
     //
-    SCRNA (
+    SCSNP (
         samplesheet
     )
 
     emit:
-    multiqc_report = SCRNA.out.multiqc_report // channel: /path/to/multiqc_report.html
+    multiqc_report = SCSNP.out.multiqc_report // channel: /path/to/multiqc_report.html
 
 }
 /*
@@ -72,8 +72,11 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    SINGLERONRD_SCRNA (
-        PIPELINE_INITIALISATION.out.samplesheet
+    // 补充完需要的参数即可
+    SINGLERONRD_SCSNP (
+        PIPELINE_INITIALISATION.out.samplesheet 
+        // meta PIPELINE_INITIALISATION process 需要修改支持对matchdir的支持
+        // /SGRNJ06/randd/USER/liuzihao/work/scsnp/subworkflows/local/utils_nfcore_scrna_pipeline/main.nf
     )
 
     //
@@ -86,7 +89,7 @@ workflow {
         params.outdir,
         params.monochrome_logs,
         params.hook_url,
-        SINGLERONRD_SCRNA.out.multiqc_report
+        SINGLERONRD_SCSNP.out.multiqc_report
     )
 }
 

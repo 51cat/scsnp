@@ -1,7 +1,7 @@
 
 import pymodules.utils as utils
 import argparse
-from minana import MinAna
+from pymodules.minana import MinAna
 
 class CallingProcesser(MinAna):
     """

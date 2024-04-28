@@ -1,6 +1,6 @@
 import pysam
-from bin.pymodules.threshold import Threshold
-from minana import MinAna
+from pymodules.threshold import Threshold
+from pymodules.minana import MinAna
 import argparse
 
 class SNPFilter(MinAna):

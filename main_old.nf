@@ -73,7 +73,7 @@ workflow {
     // WORKFLOW: Run main workflow
     //
     SINGLERONRD_SCRNA (
-        PIPELINE_INITIALISATION.out.samplesheet
+        PIPELINE_INITIALISATION.out.samplesheet // meta
     )
 
     //

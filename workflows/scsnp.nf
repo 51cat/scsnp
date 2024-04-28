@@ -16,31 +16,28 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-// test
-
-params.bam = ""
-params.sample = ""
-params.outdir = ""
-params.match_dir = ""
-params.gene_list = ""
+//
 
 process TARGET_METRICS {
     tag "TARGET_METRICS"
     label "snp_target"
 
+    // conda
+    // container 
+
     input:
-    path bam
-    val sample
-    path outdir
-    path match_dir
-    path gene_list
+    path        bam 
+    val         meta
+    path        outdir
+    path        match_dir
+    path        gene_list
 
     output:
-    path "$outdir/${sample}_filtered_sorted.bam"
+    path "$outdir/${sample}_filtered_sorted.bam" ,emit: target_bam
 
     script:
     """
-    python /SGRNJ06/randd/USER/liuzihao/work/scsnp/bin/target_metrics.py \\
+    target_metrics.py \\
     --input_bam $bam \\
     --sample $sample \\
     --outdir $outdir \\
@@ -50,18 +47,100 @@ process TARGET_METRICS {
     """
 }
 
-workflow {
+process CALLING_PREPROCESS {
+    tag "CALLING_PREPROCESS"
+    label "snp_calling_preprocess"
 
-    def ch_bam = Channel.fromPath(params.bam)
-    def ch_outdir = Channel.fromPath(params.outdir)
-    def ch_match_dir = Channel.fromPath(params.match_dir)
-    def ch_gene_list = Channel.fromPath(params.gene_list)
+    // conda
+    // container 
 
-    TARGET_METRICS(
-        ch_bam, params.sample, ch_outdir, ch_match_dir, ch_gene_list
-    )
+    input:
+    path        bam 
+    val         sample
+    path        outdir
+    path        fasta
+
+    output:
+    path "$outdir/${sample}_splitN.bam" ,emit: exon_bam
+
+    """
+    calling_preprocess.py \
+    --input_bam $bam\
+    --sample $sample\
+    --outdir $outdir\
+    --fasta $fasta
+    """
+}
+
+process CALLING {
+    tag "CALLING"
+    label "snp_calling"
+
+    // conda
+    // container 
+
+    input:
+    path        bam 
+    val         sample
+    path        outdir
+    path        fasta
+    path        bed_file
+    val         thread
+
+    output:
+    path "$outdir/${sample}_raw.bcf" ,emit: raw_bcf
+    path "$outdir/${sample}_raw.vcf" ,emit: raw_vcf
+    path "$outdir/${sample}_fixed.vcf" ,emit: fixed_vcf
+    path "$outdir/${sample}_norm.vcf" ,emit: norm_vcf
+
+    """
+    calling.py\
+    --input_bam $bam\
+    --sample $sample\
+    --outdir $outdir\
+    --fasta $fasta \
+    --thread $thread
+    """
+}
+
+process FILTER_SNP {
+    tag "FILTER_SNP"
+    label "snp_filter"
+
+    // conda
+    // container 
+
+    input:
+    path        vcf 
+    val         sample
+    path        outdir
+    val         ref_threshold_method
+    val         alt_threshold_method
+    val         VAF
+    val         ref_min_support_read
+    val         alt_min_support_read
+
+    output:
+    path "$outdir/${sample}_filtered.vcf" ,emit: filter_vcf
+
+    """
+    filter_snp.py\
+    --vcf $vcf\
+    --sample $sample\
+    --outdir $outdir \\
+    --ref_threshold_method $ref_threshold_method \\
+    --alt_threshold_method $alt_threshold_method \\
+    --VAF $VAF \\
+    --ref_min_support_read $ref_min_support_read \\
+    --alt_min_support_read $alt_min_support_read
+    """
 
 }
+
+workflow SCSNP {
+    
+}
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     THE END
