@@ -29,6 +29,9 @@ class MinAna:
             for cmd in cmds:
                 os.system(cmd)
     
+    def get_pct(self, val, total):
+        return f"{round(100*val/total, 2)} %"
+
     @staticmethod
     def check_mkdir(dir_name):
         """if dir_name is not exist, make one"""
