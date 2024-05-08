@@ -1,9 +1,16 @@
+5.6 -> 
+    抽取featureCount .... √
+    抽取analysis_snp .... √
 
-- 假期回来做的
+5.7 ->
+    抽取star         .... √
+    抽取cutadapt     .... √
 
-1. barcode / cutadape / star / featureCount步骤抽取
-2. 修改samplesheet的解析代码使其支持matchdir
+5.8 ->
+    抽取barcode
 
-3. 流程整合
-4. 参数优化
-5. docker conda测试
+5.9 ->
+    修改sample_sheet解析函数
+
+5.10 ->
+    抽取mk_ref

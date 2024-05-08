@@ -1,5 +1,5 @@
 
-import bin.pymodules.utils as utils
+import pymodules.utils as utils
 import argparse
 from pymodules.minana import MinAna
 
@@ -31,13 +31,13 @@ class VariantCaller(MinAna):
 
     def call_variants(self):
         """
-        max depth 100M
+        max depth 100M 100000000
         """
         cmd = (
             f'bcftools mpileup '
             f'-f {self.fasta} '
             f'--threads {self.thread} '
-            f'--annotate DP,AD -d 100000000 '
+            f'--annotate DP,AD -d  500000000 '
             f'-o {self.raw_bcf_file} '
             f'{self.input_bam} '
         )
