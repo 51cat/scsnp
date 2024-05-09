@@ -37,7 +37,7 @@ class VariantCaller(MinAna):
             f'bcftools mpileup '
             f'-f {self.fasta} '
             f'--threads {self.thread} '
-            f'--annotate DP,AD -d  500000000 '
+            f'--annotate DP,AD -d 100000000 '
             f'-o {self.raw_bcf_file} '
             f'{self.input_bam} '
         )

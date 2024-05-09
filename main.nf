@@ -39,11 +39,15 @@ workflow SINGLERONRD_SCSNP {
     // WORKFLOW: Run pipeline
     //
     SCSNP (
-        samplesheet
+        params.bam,
+        params.sample,
+        params.outdir,
+        params.match_dir,
+        params.gene_list
     )
 
-    emit:
-    multiqc_report = SCSNP.out.multiqc_report // channel: /path/to/multiqc_report.html
+    //emit:
+    //multiqc_report = SCSNP.out.multiqc_report // channel: /path/to/multiqc_report.html
 
 }
 /*
@@ -52,46 +56,46 @@ workflow SINGLERONRD_SCSNP {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-workflow {
+//workflow {
 
-    main:
+//    main:
 
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
-    PIPELINE_INITIALISATION (
-        params.version,
-        params.help,
-        params.validate_params,
-        params.monochrome_logs,
-        args,
-        params.outdir,
-        params.input
-    )
+//     PIPELINE_INITIALISATION (
+//        params.version,
+//        params.help,
+//        params.validate_params,
+//        params.monochrome_logs,
+//        args,
+//        params.outdir,
+//        params.input
+//    )
 
     //
     // WORKFLOW: Run main workflow
     //
     // 补充完需要的参数即可
-    SINGLERONRD_SCSNP (
-        PIPELINE_INITIALISATION.out.samplesheet 
-        // meta PIPELINE_INITIALISATION process 需要修改支持对matchdir的支持
-        // /SGRNJ06/randd/USER/liuzihao/work/scsnp/subworkflows/local/utils_nfcore_scrna_pipeline/main.nf
-    )
-
+//    SINGLERONRD_SCSNP (
+//        PIPELINE_INITIALISATION.out.samplesheet 
+//        // meta PIPELINE_INITIALISATION process 需要修改支持对matchdir的支持
+//        // /SGRNJ06/randd/USER/liuzihao/work/scsnp/subworkflows/local/utils_nfcore_scrna_pipeline/main.nf
+//    )
+//
     //
     // SUBWORKFLOW: Run completion tasks
     //
-    PIPELINE_COMPLETION (
-        params.email,
-        params.email_on_fail,
-        params.plaintext_email,
-        params.outdir,
-        params.monochrome_logs,
-        params.hook_url,
-        SINGLERONRD_SCSNP.out.multiqc_report
-    )
-}
+//    PIPELINE_COMPLETION (
+//        params.email,
+//        params.email_on_fail,
+ //       params.plaintext_email,
+ //       params.outdir,
+ //       params.monochrome_logs,
+ //       params.hook_url,
+ //       SINGLERONRD_SCSNP.out.multiqc_report
+ //   )
+//}
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

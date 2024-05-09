@@ -27,7 +27,7 @@ process TARGET_METRICS {
 
     input:
     path        bam 
-    val         meta
+   // val         meta
     path        outdir
     path        match_dir
     path        gene_list
@@ -138,7 +138,23 @@ process FILTER_SNP {
 }
 
 workflow SCSNP {
+    take:
+        bam
+        sample
+        outdir
+        match_dir
+        fasta
+        thread
     
+    main:
+        TARGET_METRICS(
+            bam,
+            outdir,
+            match_dir,
+            gene_list
+        )
+    test = TARGET_METRICS.out.target_bam
+
 }
 
 /*
