@@ -1,0 +1,9 @@
+# The following table is formatted as tab separated values. 
+#GeneName	GeneId	TranscriptId	BioType	variants_impact_HIGH	variants_impact_LOW	variants_impact_MODERATE	variants_impact_MODIFIER	variants_effect_3_prime_UTR_variant	variants_effect_frameshift_variant	variants_effect_intron_variant	variants_effect_missense_variant	variants_effect_splice_acceptor_variant	variants_effect_splice_region_variant	variants_effect_synonymous_variant	variants_effect_upstream_gene_variant
+BRAF	ENSG00000157764.14	ENST00000644969.2	protein_coding	0	2	2	0	0	0	0	2	0	0	2	0
+BRAF	ENSG00000157764.14	ENST00000646891.2	protein_coding	0	2	2	0	0	0	0	2	0	0	2	0
+EGFR	ENSG00000146648.21	ENST00000275493.7	protein_coding	2	3	6	4	4	1	2	6	1	1	2	0
+HRAS	ENSG00000174775.18	ENST00000311189.8	protein_coding	0	1	2	0	0	0	0	2	0	0	1	0
+HRAS	ENSG00000174775.18	ENST00000417302.7	protein_coding	0	1	2	0	0	0	0	2	0	0	1	0
+LRRC56	ENSG00000161328.11	ENST00000270115.8	protein_coding	0	0	0	3	0	0	0	0	0	0	0	3
+PIK3CA	ENSG00000121879.6	ENST00000263967.4	protein_coding	0	0	1	0	0	0	0	1	0	0	0	0

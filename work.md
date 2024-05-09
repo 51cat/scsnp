@@ -6,11 +6,8 @@
     抽取star         .... √
     抽取cutadapt     .... √
 
-5.8 ->
-    抽取barcode
-
 5.9 ->
-    修改sample_sheet解析函数
+    抽取barcode      .... √
 
 5.10 ->
-    抽取mk_ref
+    抽取barcode 2    .... √

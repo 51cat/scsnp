@@ -1,0 +1,3 @@
+cmd: STAR --runThreadN 4 --genomeDir /SGRNJ06/randd/USER/zhouyiqi/genome/rna/celescope2.0.0/hs --outSAMmultNmax 1 --outFilterMultimapNmax 1 --outSAMtype BAM Unsorted --outFilterMatchNmin 50  --readFilesIn ./out/cutadapt/test_1_clean_2.fq --outFileNamePrefix ./out/star//test_1_ 
+Uniquely Mapped Reads: 23959(94.22 %)
+Multi-Mapped Reads: 242(0.95 %)
