@@ -1,0 +1,11 @@
+scopeV2.0.1
+Raw Reads: 25593
+Valid Reads: 25580(99.95 %)
+Q30 of Barcodes: 95.81%
+Q30 of UMIs: 90.57%
+No PolyT Reads: 0(0.0 %)
+Low Quality Reads: 0(0.0 %)
+No Linker Reads: 13(0.05 %)
+No Barcode Reads: 0(0.0 %)
+Corrected Linker Reads: 4546(17.76 %)
+Corrected Barcode Reads: 1105(4.32 %)

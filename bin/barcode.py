@@ -8,6 +8,11 @@ import pysam
 from xopen import xopen
 import argparse
 import pymodules.utils as utils
+import os
+
+
+BIN_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.join(os.path.dirname(BIN_DIR), "assets")
 
 MIN_T = 10
 
@@ -145,6 +150,7 @@ class Barcode(MinAna):
             self.chemistry_list = ch.check_chemistry()
         else:
             self.chemistry_list = [args.chemistry] * self.fq_number
+        self.add_log_record(f"{','.join(self.chemistry_list)}")
         self.barcode_corrected_num = 0
         self.linker_corrected_num = 0
         self.total_num = 0
@@ -264,7 +270,7 @@ class Barcode(MinAna):
         
 
     @staticmethod
-    def get_scope_bc(chemistry, assets_dir):
+    def get_scope_bc(chemistry, assets_dir = ASSETS_DIR):
         """Return (linker file path, whitelist file path)"""
         try:
             linker_f = glob.glob(f'{assets_dir}/whitelist/{chemistry}/linker*')[0]
@@ -399,7 +405,7 @@ class Barcode(MinAna):
         pattern = PATTERN_DICT[chemistry]
         pattern_dict = Barcode.parse_pattern(pattern)
         ######################################################################################3
-        #linker_file, whitelist_file = Barcode.get_scope_bc(chemistry)
+        linker_file, whitelist_file = Barcode.get_scope_bc(chemistry)
         whitelist_file = "/SGRNJ06/randd/USER/liuzihao/work/CeleScope-master/celescope/data/chemistry/scopeV2.2.1/bclist"
         linker_file = "/SGRNJ06/randd/USER/liuzihao/work/CeleScope-master/celescope/data/chemistry/scopeV2.2.1/linker_4types"
 

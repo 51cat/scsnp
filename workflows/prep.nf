@@ -114,3 +114,53 @@ process STAR_GENOME {
     END_VERSIONS
     """
 }
+
+
+process BARCODE {
+    tag "BARCODE"
+    label 'barcode'
+
+    
+}
+
+process CUTADAPT {
+    tag "CUTADAPT"
+    label 'cutadapt'
+
+}
+
+process STAR {
+    tag "STAR"
+    label 'star'
+
+
+}
+
+process FEATURECOUNT {
+    tag "FEATURECOUNT"
+    label 'featureCount'
+
+    input:
+    path    input_bam
+    path    gene_list
+    val     sample
+    val     outdir
+    val     thread
+    path    gtf
+    path    gtf_type
+
+    output:
+    path "$outdir/${sample}_aligned_posSorted_addTag.bam" ,emit: featurecount_bam
+
+    script:
+    """
+    featureCount.py \
+    --input_bam ${input_bam}\
+    --sample ${sample}\
+    --outdir ${outdir} \
+    --gtf ${gtf} \
+    --gtf_type ${gtf_type}\
+    --thread ${thread}
+    """
+}
+

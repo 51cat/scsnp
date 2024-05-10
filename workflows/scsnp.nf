@@ -22,12 +22,12 @@ process TARGET_METRICS {
     tag "TARGET_METRICS"
     label "snp_target"
 
-    // conda
+    // conda 'pysam=0.22.0 samtools'
     // container 
 
     input:
     path        bam 
-   // val         meta
+    val         sample
     path        outdir
     path        match_dir
     path        gene_list
@@ -137,24 +137,74 @@ process FILTER_SNP {
 
 }
 
+process ANALYSIS {
+    tag "ANALYSIS_SNP"
+    label "analysis_snp"
+
+    // conda
+    // container 
+
+    input:
+    path        vcf 
+    val         sample
+    path        outdir
+    path        gene_list
+    val         database
+
+    output:
+    path        "${outdir}/${sample}_variant_table.csv", emit: variant_table
+
+    script:
+    """
+    analysis.py \
+    --input_vcf ${vcf}\
+    --sample ${sample}\
+    --outdir ${outdir}\
+    --gene_list ${gene_list}\
+    --database ${database}
+    """
+}
+
 workflow SCSNP {
     take:
+    bam
+    outdir
+    sample
+    match_dir
+    gene_list
+    fasta
+    bed_file
+
+    main:
+    
+    TARGET_METRICS(
         bam
+        sample,
+        outdir,
+        match_dir,
+        gene_list
+    )
+
+
+    calling_bam = TARGET_METRICS.out.target_bam
+    CALLING_PREPROCESS(
+        calling_bam 
         sample
         outdir
-        match_dir
         fasta
-        thread
-    
-    main:
-        TARGET_METRICS(
-            bam,
-            outdir,
-            match_dir,
-            gene_list
-        )
-    test = TARGET_METRICS.out.target_bam
+    )
 
+    exon_bam = CALLING_PREPROCESS.out.exon_bam
+    CALLING(
+        exon_bam,
+        sample,
+        outdir,
+        fasta,
+        bed_file,
+        thread
+    )
+
+    
 }
 
 /*
