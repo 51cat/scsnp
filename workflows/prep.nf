@@ -6,7 +6,7 @@
 
 process FASTQC {
     tag "$meta.id"
-    label 'process_medium'
+    label 'process_single'
 
     //conda "bioconda::fastqc=0.12.1"
     //container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -14,7 +14,7 @@ process FASTQC {
     //    'biocontainers/fastqc:0.12.1--hdfd78af_0' }"
 
     input:
-    tuple val(meta), path(reads)
+    tuple val(meta), path(reads), path(matchdirs)
 
     output:
     tuple val(meta), path("*.html"), emit: html
@@ -35,7 +35,7 @@ process FASTQC {
 
     fastqc \\
         $args \\
-        --threads $task.cpus \\
+        --threads 4 \\
         $renamed_files
 
     cat <<-END_VERSIONS > versions.yml
@@ -116,26 +116,6 @@ process STAR_GENOME {
 }
 
 
-process BARCODE {
-    tag "BARCODE"
-    label 'barcode'
-
-    
-}
-
-process CUTADAPT {
-    tag "CUTADAPT"
-    label 'cutadapt'
-
-}
-
-process STAR {
-    tag "STAR"
-    label 'star'
-
-
-}
-
 process FEATURECOUNT {
     tag "FEATURECOUNT"
     label 'featureCount'
@@ -164,3 +144,25 @@ process FEATURECOUNT {
     """
 }
 
+workflow SNP_PREP {
+
+    take:
+    ch_samplesheet // channel: samplesheet read in from --input
+
+    main:
+
+    ch_versions = Channel.empty()
+    ch_multiqc_files = Channel.empty()
+ 
+    //
+    // MODULE: Run FastQC
+    //
+    FASTQC (
+        ch_samplesheet
+    )
+    //ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
+    //ch_versions = ch_versions.mix(FASTQC.out.versions.first())
+    // STAR genome
+
+
+}

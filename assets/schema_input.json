@@ -26,8 +26,15 @@
         "exists": true,
         "pattern": "^\\S+\\.f(ast)?q\\.gz$",
         "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+      },
+      "matchdir": {
+        "type": "string",
+        "format": "directory-path",
+        "exists": true,
+        "pattern": "",
+        "errorMessage": "not found path" 
       }
     },
-    "required": ["sample", "fastq_1"]
+    "required": ["sample", "fastq_1", "matchdir"]
   }
 }

@@ -1,8 +1,0 @@
-name: multiqc
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - pip:
-      - multiqc-sgr==1.21.3

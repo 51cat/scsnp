@@ -15,7 +15,7 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { SCSNP  } from './workflows/scsnp'
+ include { SNP_PREP  } from './workflows/prep'
  include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_scrna_pipeline'
  include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_scrna_pipeline'
 
@@ -28,24 +28,20 @@ include { SCSNP  } from './workflows/scsnp'
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
-workflow SINGLERONRD_SCSNP {
+workflow SINGLERONRD_SCSNP_PREP {
 
     take:
     samplesheet // channel: samplesheet read in from --input
 
     main:
+    SNP_PREP(
+        samplesheet
+    )
 
     //
     // WORKFLOW: Run pipeline
     //
-    SCSNP (
-        params.bam,
-        params.sample,
-        params.outdir,
-        params.match_dir,
-        params.gene_list
-    )
-
+    
     //emit:
     //multiqc_report = SCSNP.out.multiqc_report // channel: /path/to/multiqc_report.html
 
@@ -56,22 +52,27 @@ workflow SINGLERONRD_SCSNP {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//workflow {
+workflow {
+    main:
 
 //    main:
 
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
-//     PIPELINE_INITIALISATION (
-//        params.version,
-//        params.help,
-//        params.validate_params,
-//        params.monochrome_logs,
-//        args,
-//        params.outdir,
-//        params.input
-//    )
+     PIPELINE_INITIALISATION (
+        params.version,
+        params.help,
+        params.validate_params,
+        params.monochrome_logs,
+        args,
+        params.outdir,
+        params.input
+    )
+    //PIPELINE_INITIALISATION.out.samplesheet.view()
+    SINGLERONRD_SCSNP_PREP (
+        PIPELINE_INITIALISATION.out.samplesheet
+    )
 
     //
     // WORKFLOW: Run main workflow
@@ -95,7 +96,7 @@ workflow SINGLERONRD_SCSNP {
  //       params.hook_url,
  //       SINGLERONRD_SCSNP.out.multiqc_report
  //   )
-//}
+}
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
