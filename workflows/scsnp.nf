@@ -436,10 +436,9 @@ workflow SCSNP {
         )
 
         // barcode
-        res_out = "${params.outdir}/barcode/"
         BARCODE(
             ch_samplesheet,
-            res_out,
+            params.outdir,
             params.chemistry,
             params.pattern,
             params.whitelist,
@@ -455,11 +454,10 @@ workflow SCSNP {
         r2 = BARCODE.out.barcode_r2
         
         // cutadapt
-        res_out = "${params.outdir}/cutadapt/"
         CUTADAPTE(
             ch_samplesheet,
             r2,
-            res_out,
+            params.outdir,
             params.minimum_length,
             params.nextseq_trim,
             params.overlap
