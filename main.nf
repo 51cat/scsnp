@@ -15,7 +15,7 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
- include { SNP_PREP  } from './workflows/prep'
+ include { SCSNP  } from './workflows/scsnp'
  include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_scrna_pipeline'
  include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_scrna_pipeline'
 
@@ -28,13 +28,13 @@ nextflow.enable.dsl = 2
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
-workflow SINGLERONRD_SCSNP_PREP {
+workflow SINGLERONRD_SCSNP {
 
     take:
     samplesheet // channel: samplesheet read in from --input
 
     main:
-    SNP_PREP(
+    SCSNP(
         samplesheet
     )
 
@@ -70,20 +70,14 @@ workflow {
         params.input
     )
     //PIPELINE_INITIALISATION.out.samplesheet.view()
-    SINGLERONRD_SCSNP_PREP (
+    SINGLERONRD_SCSNP (
         PIPELINE_INITIALISATION.out.samplesheet
     )
+     PIPELINE_INITIALISATION.out.samplesheet.view()
 
     //
     // WORKFLOW: Run main workflow
     //
-    // 补充完需要的参数即可
-//    SINGLERONRD_SCSNP (
-//        PIPELINE_INITIALISATION.out.samplesheet 
-//        // meta PIPELINE_INITIALISATION process 需要修改支持对matchdir的支持
-//        // /SGRNJ06/randd/USER/liuzihao/work/scsnp/subworkflows/local/utils_nfcore_scrna_pipeline/main.nf
-//    )
-//
     //
     // SUBWORKFLOW: Run completion tasks
     //

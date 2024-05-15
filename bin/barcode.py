@@ -405,9 +405,9 @@ class Barcode(MinAna):
         pattern = PATTERN_DICT[chemistry]
         pattern_dict = Barcode.parse_pattern(pattern)
         ######################################################################################3
-        linker_file, whitelist_file = Barcode.get_scope_bc(chemistry)
-        whitelist_file = "/SGRNJ06/randd/USER/liuzihao/work/CeleScope-master/celescope/data/chemistry/scopeV2.2.1/bclist"
-        linker_file = "/SGRNJ06/randd/USER/liuzihao/work/CeleScope-master/celescope/data/chemistry/scopeV2.2.1/linker_4types"
+        linker_file, whitelist_file = Barcode.get_scope_bc(chemistry, ASSETS_DIR)
+        #whitelist_file = "/SGRNJ06/randd/USER/liuzihao/work/CeleScope-master/celescope/data/chemistry/scopeV2.2.1/bclist"
+        #linker_file = "/SGRNJ06/randd/USER/liuzihao/work/CeleScope-master/celescope/data/chemistry/scopeV2.2.1/linker_4types"
 
         barcode_set_list, barcode_mismatch_list = Barcode.parse_whitelist_file([whitelist_file], n_pattern=len(pattern_dict['C']), n_mismatch=1)
         linker_set_list, linker_mismatch_list = Barcode.parse_whitelist_file([linker_file],n_pattern=1, n_mismatch=2)
@@ -549,9 +549,9 @@ class Barcode(MinAna):
             #################################################################################
             bc_pattern = PATTERN_DICT[chemistry]
             if (bc_pattern):
-                #linker_file, whitelist_file = self.get_scope_bc(chemistry, assets_dir)
-                whitelist_file = "/SGRNJ06/randd/USER/liuzihao/work/CeleScope-master/celescope/data/chemistry/scopeV2.2.1/bclist"
-                linker_file = "/SGRNJ06/randd/USER/liuzihao/work/CeleScope-master/celescope/data/chemistry/scopeV2.2.1/linker_4types"
+                linker_file, whitelist_file = self.get_scope_bc(chemistry)
+                #whitelist_file = "/SGRNJ06/randd/USER/liuzihao/work/CeleScope-master/celescope/data/chemistry/scopeV2.2.1/bclist"
+                #linker_file = "/SGRNJ06/randd/USER/liuzihao/work/CeleScope-master/celescope/data/chemistry/scopeV2.2.1/linker_4types"
                 whitelist_files = [whitelist_file]
             else:
                 bc_pattern = self.pattern
