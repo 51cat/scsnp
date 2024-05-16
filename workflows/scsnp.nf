@@ -128,7 +128,7 @@ process BARCODE {
 
     
     """
-    python /workspaces/scsnp/bin/barcode.py \
+    barcode.py \
     --fq1 ${fq1_in} \
     --fq2 ${fq2_in}\
     --sample ${meta.id}\
@@ -162,7 +162,7 @@ process CUTADAPTE {
    // if (cutadapt_param != '') other_args += cutadapt_param
 
     """
-    python /workspaces/scsnp/bin/cutadapt.py \
+    cutadapt.py \
     --sample ${meta.id} \
     --outdir ${outdir}\
     --thread ${task.cpus}\
@@ -240,7 +240,7 @@ process STAR {
     if (out_unmapped == true) ture_args += " --out_unmapped "
 
     """
-    python /workspaces/scsnp/bin/star.py \
+    star.py \
     --sample ${sample} \
     --outdir ${outdir}\
     --thread ${task.cpus}\
@@ -269,7 +269,7 @@ process FEATURECOUNT {
 
     script:
     """
-    python /workspaces/scsnp/bin/featureCount.py \
+    featureCount.py \
     --input_bam ${input_bam} \
     --sample ${meta.id} \
     --outdir ${outdir} \
@@ -298,7 +298,7 @@ process TARGET_METRICS {
     script:
 
     """
-    python /workspaces/scsnp/bin/target_metrics.py \\
+    target_metrics.py \\
     --input_bam $bam \\
     --sample $meta.id \\
     --outdir $outdir \\
@@ -325,7 +325,7 @@ process CALLING_PREPROCESS {
     path "$outdir/${sample}_splitN.bam" ,emit: exon_bam
 
     """
-    python /workspaces/scsnp/bin/calling_preprocess.py \
+    calling_preprocess.py \
     --input_bam $bam\
     --sample $meta.id\
     --outdir $outdir\
@@ -354,7 +354,7 @@ process CALLING {
     path "$outdir/${meta.id}_norm.vcf" ,emit: norm_vcf
 
     """
-    python /workspaces/scsnp/bin/calling.py\
+    calling.py\
     --input_bam $bam\
     --sample $meta.id\
     --outdir $outdir\
@@ -384,7 +384,7 @@ process FILTER_SNP {
     path "$outdir/${meta.id}_filtered.vcf" ,emit: filtered_vcf
 
     """
-    python /workspaces/scsnp/bin/filter_snp.py\
+    filter_snp.py\
     --vcf $vcf\
     --sample $meta.id\
     --outdir $outdir \\
@@ -416,7 +416,7 @@ process ANALYSIS {
 
     script:
     """
-    python /workspaces/scsnp/bin/analysis.py \
+    analysis.py \
     --input_vcf ${vcf}\
     --sample ${meta.id}\
     --outdir ${outdir}\

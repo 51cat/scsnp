@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 import pymodules.utils as utils
 import argparse
 from pymodules.minana import MinAna

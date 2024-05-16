@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import pysam
 import pymodules.utils as utils
 from pymodules.minana import MinAna

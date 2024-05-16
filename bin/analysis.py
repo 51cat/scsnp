@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import pysam
 import pandas as pd
 

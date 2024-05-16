@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import pysam
 from pymodules.threshold import Threshold
 from pymodules.minana import MinAna

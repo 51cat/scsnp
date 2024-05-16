@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 import os
 import pathlib
 from collections import defaultdict
